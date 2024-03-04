@@ -32,12 +32,12 @@ $ docker container ls
 
 A aplicação conta com dois bancos de dados: um para o ambiente de desenvolvimento, que é escutado na porta 5432, e o de testes que é escutado na porta 5433.
 
-3. Em um terminal aberto no diretório do projeto, execute o comando abaixo para acessar o `bash` do container `ruby`:
+3. Em um terminal aberto no diretório do projeto, execute o comando abaixo para instalar as dependências do projeto:
 ```bash 
 docker exec ruby bundle
 ```
 
-## Como acessar a aplicação em ambiente de desenvolvimento
+## Como executar o servidor e acessar a aplicação em ambiente de desenvolvimento
 1. Siga as instruções de como executar a aplicação;
 2. Em um terminal com o diretório do projeto aberto, execute o seguinte comando: 
 ```bash
