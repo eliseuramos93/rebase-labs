@@ -1,0 +1,17 @@
+require:
+  - rubocop
+
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 3.3.0
+  SuggestExtensions: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  AllowedMethods: ['context', 'describe', 'it', 'scenario']
+
