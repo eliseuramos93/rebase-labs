@@ -2,9 +2,9 @@ require 'spec_helper'
 require_relative '../../../lib/strategies/csv_conversion_strategy'
 
 RSpec.describe CSVToJsonStrategy do
-  context 'convert' do
+  context '#convert' do
     it 'converte um arquivo CSV para JSON' do
-      file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'test_data.csv')
+      file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
 
       results = CSVToJsonStrategy.convert(file_path)
       json_results = JSON.parse(results)

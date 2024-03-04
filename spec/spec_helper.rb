@@ -39,7 +39,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    @conn.exec('ROLLBACK')
+    @conn.exec('ROLLBACK') unless @conn.transaction_status == 0
     @conn.close
   end
 end
