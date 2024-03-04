@@ -1,19 +1,11 @@
 require 'sinatra'
 require 'rack/handler/puma'
-require 'csv'
+require_relative 'lib/strategies/csv_conversion_strategy'
 
 get '/tests' do
   content_type :json
-  rows = CSV.read('./data.csv', col_sep: ';')
-
-  columns = rows.shift
-
-  rows.map do |row|
-    row.each_with_object({}).with_index do |(cell, acc), idx|
-      column = columns[idx]
-      acc[column] = cell
-    end
-  end.to_json
+  csv_converter = CSVConverter.new(CSVToJsonStrategy)
+  csv_converter.convert('./data.csv')
 end
 
 get '/hello' do
