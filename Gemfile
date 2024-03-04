@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'csv'
+gem 'pg'
 gem 'puma'
 gem 'rack'
 gem 'rackup'
