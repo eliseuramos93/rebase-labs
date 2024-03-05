@@ -9,7 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - data-db:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/initializers/create_exames_table.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - postgres-sinatra
     
@@ -22,7 +22,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/initializers/create_exames_table.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - postgres-sinatra
 

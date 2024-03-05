@@ -12,15 +12,29 @@ def finished_task
   puts "\nTarefa concluída!"
 end
 
+def finished_setup
+  puts "\n===== Configuração completa! =====\n\n"
+  puts 'Você pode não ter permissão para excluir/alterar alguns arquivos que foram criados.'
+  puts 'Caso seja necessário, execute o comando ** sudo chown -R $USER:$USER . ** para obter permissões.'
+end
+
 FileUtils.cd APP_ROOT do
-  puts "\n===== 1. Executando Docker compose ====="
+  puts "\n===== 1. Executando Docker compose =====\n\n"
   system!('docker compose up -d')
   finished_task
-  puts "\n===== 2. Instalando dependências ====="
+
+  puts "\n===== 2. Instalando dependências =====\n\n"
   system!('docker exec ruby bundle')
   finished_task
-  puts "\n===== 3. Inserindo informações no banco de dados ====="
-  system!('docker exec ruby ruby import_from_csv.rb')
+
+  puts "\n===== 3. Inserindo informações no banco de dados =====\n\n"
+  system!('docker exec ruby ruby ./config/initializers/import_from_csv.rb')
   finished_task
-  puts "\n===== Configuração completa! ====="
+
+  puts "\n===== 4. Executando testes com RSpec =====\n\n"
+  system!('docker exec ruby rspec')
+
+  puts "\n===== 5. Executando Rubocop =====\n\n"
+  system!('docker exec ruby rubocop')
+  finished_setup
 end
