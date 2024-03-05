@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if docker exec ruby gem list --no-installed --exact --silent foreman; then
+  echo "==== Instalando Foreman ====="
+  docker exec ruby gem install foreman
+fi
+
+docker exec -it ruby foreman start -f Procfile.dev "$@"

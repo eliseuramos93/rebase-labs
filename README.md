@@ -30,9 +30,8 @@ bin/setup
 1. Siga as instruções de como executar a aplicação;
 2. Em um terminal com o diretório do projeto aberto, execute o seguinte comando: 
 ```bash
-docker exec ruby ruby server.rb
+bin/dev
 ```
-3. Em um navegador de sua escolha, visite http://localhost:3000/hello para ver a página inicial.
 
 ## Como encerrar os containers em execução
 
