@@ -5,6 +5,9 @@ AllCops:
   NewCops: disable
   TargetRubyVersion: 3.3.0
   SuggestExtensions: false
+  Exclude:
+    - 'config/**/*'
+    - 'config.ru'
 
 Style/Documentation:
   Enabled: false
