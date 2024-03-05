@@ -1,4 +1,6 @@
 require_relative '../strategies/csv_conversion_strategy'
+require 'pg'
+require 'json'
 
 class DatabaseService
   def self.insert_data(file_path:, connection:)
@@ -8,14 +10,13 @@ class DatabaseService
     json_data.each do |row|
       connection.exec(create_insert_sql(row))
     end
-
   rescue PG::UndefinedColumn
-    return connection.exec('ROLLBACK')
+    connection.exec('ROLLBACK')
   end
 
   private_class_method def self.create_insert_sql(row)
     columns = row.keys.map { |key| "\"#{key}\"" }.join(', ')
-    values = row.values.map { |value| "'#{value}'" }.join(', ')
+    values = row.values.map { |value| "'#{value.gsub(/'/, "''")}'" }.join(', ')
 
     "INSERT INTO exames (#{columns}) VALUES (#{values});"
   end

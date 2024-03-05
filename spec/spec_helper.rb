@@ -1,7 +1,9 @@
 ENV['APP_ENV'] = 'test'
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  # add_filter Dir.pwd.concat('/import_from_csv.rb')
+end
 
 require_relative '../server'
 require 'rack/test'
