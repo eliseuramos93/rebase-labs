@@ -90,15 +90,15 @@ RSpec.describe DatabaseService do
   end
 
   context '::select_all_tests' do
-    it 'retorna todas as linhas completas de um banco de dados com sucesso' do
+    it 'retorna um JSON com todas as linhas completas de um banco de dados com sucesso' do
       file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
       converter = CSVConverter.new(CSVToJsonStrategy)
       json_data = JSON.parse(converter.convert(file_path))
       DatabaseService.insert_data(json_data:, connection: @conn)
 
-      results = DatabaseService.select_all_tests(connection: @conn)
+      results = JSON.parse(DatabaseService.select_all_tests(connection: @conn))
 
-      expect(results.class).to eq PG::Result
+      expect(results.class).to eq Array
       expect(results.count).to eq 4
       expect(results[0]['cpf']).to eq '048.973.170-88'
       expect(results[1]['cpf']).to eq '066.126.400-90'
@@ -121,11 +121,11 @@ RSpec.describe DatabaseService do
       expect(results[0]['limites tipo exame']).to eq '45-52'
     end
 
-    it 'retorna um resultado vazio se o banco de dados não possuir dados' do
-      results = DatabaseService.select_all_tests(connection: @conn)
+    it 'retorna um JSON vazio se o banco de dados não possuir dados' do
+      results = JSON.parse(DatabaseService.select_all_tests(connection: @conn))
 
-      expect(results.class).to eq PG::Result
-      expect(results.count).to eq 0
+      expect(results.class).to eq Array
+      expect(results).to be_empty
     end
 
     it 'retorna nil caso a conexão esteja fechada' do

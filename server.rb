@@ -1,11 +1,13 @@
 require 'sinatra'
 require 'rack/handler/puma'
 require_relative 'lib/strategies/csv_conversion_strategy'
+require_relative 'lib/services/database_service'
 
 get '/tests' do
   content_type :json
-  csv_converter = CSVConverter.new(CSVToJsonStrategy)
-  csv_converter.convert('./data.csv')
+
+  connection = DatabaseService.connect
+  DatabaseService.select_all_tests(connection:)
 end
 
 get '/hello' do

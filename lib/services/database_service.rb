@@ -26,7 +26,7 @@ class DatabaseService
   def self.select_all_tests(connection:)
     return unless connection.instance_of?(PG::Connection)
 
-    connection.exec('SELECT * FROM exames;')
+    connection.exec('SELECT * FROM exames;').map { |row| row }.to_json
   rescue PG::ConnectionBad
     nil
   end
