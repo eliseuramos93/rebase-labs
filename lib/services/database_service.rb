@@ -7,6 +7,7 @@ DB_CONFIG = {
 }.freeze
 
 require 'pg'
+require 'json'
 
 class DatabaseService
   def self.connect
