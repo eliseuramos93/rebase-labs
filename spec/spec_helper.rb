@@ -1,12 +1,23 @@
 ENV['APP_ENV'] = 'test'
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  # add_filter Dir.pwd.concat('/import_from_csv.rb')
+end
 
 require_relative '../server'
 require 'rack/test'
 require 'rspec'
 require 'debug'
+require 'pg'
+
+TEST_DB_CONFIG = {
+  dbname: 'postgres-test',
+  user: 'postgres-test',
+  password: '654321',
+  port: '5432',
+  host: 'postgres-test'
+}.freeze
 
 RSpec.configure do |config|
   include Rack::Test::Methods
@@ -20,4 +31,18 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.example_status_persistence_file_path = './spec/support/failures.txt'
+
+  # Configurações para testes usando o banco de dados de teste
+  config.before(:each) do
+    @conn = PG.connect(TEST_DB_CONFIG)
+    @conn.exec('BEGIN')
+  end
+
+  config.after(:each) do
+    @conn.exec('ROLLBACK') unless @conn.transaction_status.zero?
+    @conn.exec('DELETE FROM exames;')
+    @conn.close
+  end
 end

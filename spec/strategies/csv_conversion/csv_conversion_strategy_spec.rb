@@ -2,7 +2,7 @@ require 'spec_helper'
 require_relative '../../../lib/strategies/csv_conversion_strategy'
 
 RSpec.describe CSVConversionStrategy do
-  context '#convert' do
+  context '::convert' do
     it 'apenas realiza conversão de estratégias implementadas' do
       file_path = File.join(__dir__, 'spec', 'support', 'assets', 'test_data.csv')
 

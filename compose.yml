@@ -1,0 +1,49 @@
+services:
+  postgres-developent:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - data-db:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - postgres-sinatra
+    
+  postgres-test:
+    image: postgres
+    container_name: postgres-test
+    environment:
+      POSTGRES_USER: postgres-test
+      POSTGRES_PASSWORD: '654321'
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - postgres-sinatra
+
+  ruby:
+    image: ruby
+    container_name: ruby
+    volumes:
+      - ${PWD}:/app
+      - ruby-gems:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    networks:
+      - postgres-sinatra
+    stdin_open: true
+    tty: true
+    command: bash
+
+networks:
+  postgres-sinatra:
+
+volumes:
+  data-db:
+  ruby-gems:
