@@ -1,17 +1,34 @@
-require_relative '../strategies/csv_conversion_strategy'
+DB_CONFIG = {
+  dbname: 'postgres',
+  user: 'postgres',
+  password: 'postgres',
+  port: '5432',
+  host: 'postgres'
+}.freeze
+
 require 'pg'
-require 'json'
 
 class DatabaseService
-  def self.insert_data(file_path:, connection:)
-    converter = CSVConverter.new(CSVToJsonStrategy)
-    json_data = JSON.parse(converter.convert(file_path))
+  def self.connect
+    PG.connect(DB_CONFIG)
+  end
+
+  def self.insert_data(json_data:, connection:)
+    raise PG::UnableToSend unless connection.instance_of?(PG::Connection)
 
     json_data.each do |row|
       connection.exec(create_insert_sql(row))
     end
   rescue PG::UndefinedColumn
     connection.exec('ROLLBACK')
+  end
+
+  def self.select_all_tests(connection:)
+    return unless connection.instance_of?(PG::Connection)
+
+    connection.exec('SELECT * FROM exames;')
+  rescue PG::ConnectionBad
+    nil
   end
 
   private_class_method def self.create_insert_sql(row)

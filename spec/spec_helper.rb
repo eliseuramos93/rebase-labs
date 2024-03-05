@@ -11,7 +11,7 @@ require 'rspec'
 require 'debug'
 require 'pg'
 
-DB_CONFIG = {
+TEST_DB_CONFIG = {
   dbname: 'postgres-test',
   user: 'postgres-test',
   password: '654321',
@@ -36,12 +36,13 @@ RSpec.configure do |config|
 
   # Configurações para testes usando o banco de dados de teste
   config.before(:each) do
-    @conn = PG.connect(DB_CONFIG)
+    @conn = PG.connect(TEST_DB_CONFIG)
     @conn.exec('BEGIN')
   end
 
   config.after(:each) do
-    @conn.exec('ROLLBACK') unless @conn.transaction_status == 0
+    @conn.exec('ROLLBACK') unless @conn.transaction_status.zero?
+    @conn.exec('DELETE FROM exames;')
     @conn.close
   end
 end
