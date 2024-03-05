@@ -14,27 +14,16 @@ Uma aplicação web para listagem de resultados de exames de laboratório.
 ## Idioma
 A aplicação sempre que possível priorizará o Português (mais especificamente, pt-BR). Portanto todo texto que não seja código, incluíndo descrições de testes, mensagens de commit, comentários no código, nomes de colunas no banco de dados, entre outros, estará em Português. 
 
-## Como executar a aplicação
+## Pré-requisitos
+- Possuir Ruby instalado em sua máquina local;
+- Possuir Docker Engine (ou Docker Desktop) instalado em sua máquina local.
 
-1. Garanta que você possui o Docker Engine (ou Docker Desktop) instalado em sua máquina;
-2. Em um terminal (ou instância do Docker CLI) aberto no diretório do projeto, execute o comando abaixo:
+## Como configurar a aplicação
+
+Em um terminal aberto no diretório do projeto, basta executar o comando abaixo para configurar a aplicação:
+
 ```bash
-docker compose up -d
-```
-Para verificar se os containers foram devidamente criados, você pode executar o comando `docker container ls`, que deve retornar um resultado semelhante ao descrito abaixo: 
-```bash
-$ docker container ls
-=> CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                       NAMES
-=> a00fb02a7d84   postgres   "docker-entrypoint.s…"   8 seconds ago   Up 6 seconds   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   postgres
-=> 4b03194cf2fd   postgres   "docker-entrypoint.s…"   8 seconds ago   Up 6 seconds   0.0.0.0:5433->5432/tcp, :::5433->5432/tcp   postgres-test
-=> 65547a674e3c   ruby       "bash"                   8 seconds ago   Up 6 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   ruby
-```
-
-A aplicação conta com dois bancos de dados: um para o ambiente de desenvolvimento, que é escutado na porta 5432, e o de testes que é escutado na porta 5433.
-
-3. Em um terminal aberto no diretório do projeto, execute o comando abaixo para instalar as dependências do projeto:
-```bash 
-docker exec ruby bundle
+bin/setup
 ```
 
 ## Como executar o servidor e acessar a aplicação em ambiente de desenvolvimento
@@ -45,6 +34,13 @@ docker exec ruby ruby server.rb
 ```
 3. Em um navegador de sua escolha, visite http://localhost:3000/hello para ver a página inicial.
 
+## Como encerrar os containers em execução
+
+Basta executar o comando abaixo em um terminal aberto no diretório do projeto para encerrar todos os containers inicializados em `bin/setup`:
+
+```bash
+docker compose down
+```
 ## Endpoints disponíveis
 
 ### GET /tests

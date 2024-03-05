@@ -9,7 +9,10 @@ DB_CONFIG = {
 require_relative './lib/services/database_service'
 
 connection = PG.connect(DB_CONFIG)
-file_path = File.join(Dir.pwd, 'data.csv')
+first_query = connection.exec('SELECT * FROM exames;')
 
-DatabaseService.insert_data(file_path:, connection:)
-connection.close
+if first_query.num_tuples == 0
+  file_path = File.join(Dir.pwd, 'data.csv')
+  DatabaseService.insert_data(file_path:, connection:)
+  connection.close
+end

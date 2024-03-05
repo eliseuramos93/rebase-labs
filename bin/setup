@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+APP_ROOT = File.expand_path('..', __dir__)
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+def finished_task
+  puts "\nTarefa concluída!"
+end
+
+FileUtils.cd APP_ROOT do
+  puts "\n===== 1. Executando Docker compose ====="
+  system!('docker compose up -d')
+  finished_task
+  puts "\n===== 2. Instalando dependências ====="
+  system!('docker exec ruby bundle')
+  finished_task
+  puts "\n===== 3. Inserindo informações no banco de dados ====="
+  system!('docker exec ruby ruby import_from_csv.rb')
+  finished_task
+  puts "\n===== Configuração completa! ====="
+end
