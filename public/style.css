@@ -1,5 +1,22 @@
 body {
-    background-color: #111
+    background-color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table, td, th {
+    border-collapse: collapse;
+    border: 1px solid #DDD;
+    color: #DDD;
+    text-align: center;
+}
+
+table {
+    width: 90vw; 
+    margin: auto; 
+}
+
+th {
+    text-transform: capitalize;
 }
 
 h2 {
@@ -8,20 +25,19 @@ h2 {
     text-align: center;
 }
 
-table {
-    width: 80%;
-    margin: auto;
+#pagination {
+    margin: 0 auto 0 auto;
+    text-align: center;
 }
 
-table, th, td {
-    border: 1px solid #DDD;
-    border-collapse: collapse;
-}
-
-.table-cell, .table-header {
-    color: #DDD;
-}
-
-.table-header {
-    text-transform: capitalize;
+.btn {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 0.5rem;
+    padding: 6px;
+    border: none;
+    min-width: 2rem;
+    max-width: 2rem;
+    border-radius: 4px;
 }
