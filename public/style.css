@@ -1,0 +1,27 @@
+body {
+    background-color: #111
+}
+
+h2 {
+    color: white;
+    margin: 0 auto 1rem auto;
+    text-align: center;
+}
+
+table {
+    width: 80%;
+    margin: auto;
+}
+
+table, th, td {
+    border: 1px solid #DDD;
+    border-collapse: collapse;
+}
+
+.table-cell, .table-header {
+    color: #DDD;
+}
+
+.table-header {
+    text-transform: capitalize;
+}
