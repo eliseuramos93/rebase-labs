@@ -15,7 +15,6 @@ Uma aplicação web para listagem de resultados de exames de laboratório.
 A aplicação sempre que possível priorizará o Português (mais especificamente, pt-BR). Portanto todo texto que não seja código, incluíndo descrições de testes, mensagens de commit, comentários no código, nomes de colunas no banco de dados, entre outros, estará em Português. 
 
 ## Pré-requisitos
-- Possuir Ruby instalado em sua máquina local;
 - Possuir Docker Engine (ou Docker Desktop) instalado em sua máquina local.
 
 ## Como configurar a aplicação
