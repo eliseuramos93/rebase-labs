@@ -49,3 +49,10 @@ GET '/tests'
 ```
 - **Status**: 200 (OK)
 - **Corpo da resposta**: Arquivo JSON com os resultados dos exames cadastrados na plataforma
+
+### GET /home
+```bash
+http://localhost:3000/home
+```
+- **Status**: 200 (OK)
+- **Corpo da resposta**: Página web que exibe os resultados de `GET /tests` em formato de tabela dentro de uma página reativa, renderizando 100 conteúdos por vez.
