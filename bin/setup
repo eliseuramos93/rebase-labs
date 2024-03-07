@@ -1,40 +1,41 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
-require 'fileutils'
+APP_ROOT=$(dirname "$0")/..
 
-APP_ROOT = File.expand_path('..', __dir__)
+system() {
+  if ! "$@"; then
+    echo "Erro ao executar $*"
+    exit 1
+  fi
+}
 
-def system!(*args)
-  system(*args, exception: true)
-end
+finished_task() {
+  echo "\nTarefa concluída!"
+}
 
-def finished_task
-  puts "\nTarefa concluída!"
-end
+finished_setup() {
+  echo "\n===== Configuração completa! =====\n\n"
+  echo 'Você pode não ter permissão para excluir/alterar alguns arquivos que foram criados.'
+  echo 'Caso seja necessário, execute o comando ** sudo chown -R $USER:$USER . ** para obter permissões.'
+}
 
-def finished_setup
-  puts "\n===== Configuração completa! =====\n\n"
-  puts 'Você pode não ter permissão para excluir/alterar alguns arquivos que foram criados.'
-  puts 'Caso seja necessário, execute o comando ** sudo chown -R $USER:$USER . ** para obter permissões.'
-end
+cd "$APP_ROOT" || exit
 
-FileUtils.cd APP_ROOT do
-  puts "\n===== 1. Executando Docker compose =====\n\n"
-  system!('docker compose up -d')
-  finished_task
+echo "\n===== 1. Executando Docker compose =====\n\n"
+system docker compose up --build --no-recreate -d
+finished_task
 
-  puts "\n===== 2. Instalando dependências =====\n\n"
-  system!('docker exec ruby bundle')
-  finished_task
+echo "\n===== 2. Instalando dependências =====\n\n"
+system docker exec ruby bundle
+finished_task
 
-  puts "\n===== 3. Inserindo informações no banco de dados =====\n\n"
-  system!('docker exec ruby ruby ./config/initializers/import_from_csv.rb')
-  finished_task
+echo "\n===== 3. Inserindo informações no banco de dados =====\n\n"
+system docker exec ruby ruby ./config/initializers/import_from_csv.rb
+finished_task
 
-  puts "\n===== 4. Executando testes com RSpec =====\n\n"
-  system!('docker exec ruby rspec')
+echo "\n===== 4. Executando testes com RSpec =====\n\n"
+system docker exec ruby rspec
 
-  puts "\n===== 5. Executando Rubocop =====\n\n"
-  system!('docker exec ruby rubocop')
-  finished_setup
-end
+echo "\n===== 5. Executando Rubocop =====\n\n"
+system docker exec ruby rubocop
+finished_setup

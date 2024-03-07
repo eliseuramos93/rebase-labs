@@ -27,13 +27,14 @@ services:
       - postgres-sinatra
 
   ruby:
-    image: ruby
+    build: .
     container_name: ruby
     volumes:
       - ${PWD}:/app
       - ruby-gems:/usr/local/bundle
     ports:
       - "3000:3000"
+      - "4444:4444"
     working_dir: /app
     networks:
       - postgres-sinatra
