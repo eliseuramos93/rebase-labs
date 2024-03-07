@@ -14,4 +14,9 @@ get '/hello' do
   'Hello world!'
 end
 
-Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0') unless ENV['APP_ENV'] == 'test'
+get '/home' do
+  content_type 'text/html'
+
+  path = File.join(Dir.pwd, 'public', 'index.html')
+  File.open(path)
+end

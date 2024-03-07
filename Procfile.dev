@@ -1,1 +1,1 @@
-web: ruby server.rb
+web: bundle && bundle exec puma -p 3000
