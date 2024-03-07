@@ -47,15 +47,16 @@ fetch(tests_url)
 
       Object.keys(data[0]).forEach(key => {
         const th = document.createElement('th');
-        th.textContent = `${key}`;
-        th.classList.add('table-header');
+        const div = document.createElement('div')
+        div.textContent = `${key}`;
+        div.classList.add('table-header');
+        th.appendChild(div);
         table_headers.appendChild(th);
       });
 
       document.querySelector('#table-headers').appendChild(table_headers);
     };
 
-    console.log(data);
     setupTableHeaders(data);
     displayData(data, currentPage);
     setupPagination(data);
