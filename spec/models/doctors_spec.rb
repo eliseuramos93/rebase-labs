@@ -55,7 +55,7 @@ RSpec.describe Doctor do
       expect(results.count).to eq 0
     end
 
-    it 'não cria um novo médico caso o CRM State não seja informado' do
+    it 'não cria um novo médico caso o estado do CRM não seja informado' do
       Doctor.create(crm: 'B000BJ20J4', crm_state: nil, full_name: 'Dr. Ross Geller',
                     email: 'wewereonabreak@gmail.com')
 

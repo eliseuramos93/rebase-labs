@@ -42,7 +42,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -54,7 +54,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -66,7 +66,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -78,7 +78,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -90,7 +90,7 @@ RSpec.describe Patient do
                      birth_date: nil, address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -102,7 +102,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: nil, city: 'Recife', state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -114,7 +114,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: nil, state: 'PE',
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -126,7 +126,7 @@ RSpec.describe Patient do
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: nil,
                      connection: @conn, end_connection: false)
 
-      connection = PG.connect(TEST_DB_CONFIG)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -153,6 +153,7 @@ RSpec.describe Patient do
 
       found_patient = Patient.find(id: 1, connection: @conn, end_connection: false)
 
+      expect(found_patient).to be_a Patient
       expect(found_patient.id).to eq 1
       expect(found_patient.cpf).to eq '283.368.670-66'
       expect(found_patient.full_name).to eq 'Reginaldo Rossi'

@@ -19,7 +19,8 @@ class ApplicationModel
     nil
   end
 
-  def self.find(id:, connection:, end_connection:)
+  def self.find(id:, connection: nil, end_connection: true)
+    connection ||= DatabaseService.connect
     sql = "SELECT * FROM #{table_name} WHERE id = $1;"
     result = connection.exec_params(sql, [id])
     connection.close if end_connection
@@ -81,6 +82,8 @@ class ApplicationModel
 
     data = result.first
     data['id'] = data['id'].to_i
+    data['patient_id'] = data['patient_id'].to_i if data['patient_id']
+    data['doctor_id'] = data['doctor_id'].to_i if data['doctor_id']
     new(**symbolize_keys(data))
   end
 end

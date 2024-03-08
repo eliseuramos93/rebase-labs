@@ -35,3 +35,11 @@ CREATE TABLE IF NOT EXISTS doctors (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS examinations (
+    id SERIAL NOT NULL,
+    patient_id INTEGER NOT NULL,
+    doctor_id INTEGER NOT NULL,
+    result_token VARCHAR(255) NOT NULL UNIQUE,
+    date DATE NOT NULL
+);

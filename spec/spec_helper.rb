@@ -45,6 +45,7 @@ RSpec.configure do |config|
     @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY;')
     @conn.exec('TRUNCATE TABLE exames RESTART IDENTITY;')
     @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY;')
+    @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY;')
     @conn.close
   end
 end
