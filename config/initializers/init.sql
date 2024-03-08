@@ -20,7 +20,7 @@ CREATE TABLE exames (
 );
 
 CREATE TABLE IF NOT EXISTS patients (
-    id SERIAL NOT NULL UNIQUE,
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS patients (
 );
 
 CREATE TABLE IF NOT EXISTS doctors (
-    id SERIAL NOT NULL UNIQUE,
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     crm VARCHAR(20) NOT NULL UNIQUE,
     crm_state VARCHAR(20) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS doctors (
 );
 
 CREATE TABLE IF NOT EXISTS examinations (
-    id SERIAL NOT NULL UNIQUE,
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     patient_id INTEGER NOT NULL,
     doctor_id INTEGER NOT NULL,
     result_token VARCHAR(255) NOT NULL UNIQUE,
@@ -59,7 +59,7 @@ REFERENCES doctors(id)
 ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS tests (
-    id SERIAL NOT NULL UNIQUE,
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     examination_id INTEGER NOT NULL,
     type VARCHAR(255) NOT NULL,
     limits VARCHAR(255) NOT NULL,
@@ -71,3 +71,14 @@ ADD CONSTRAINT fk_examination_id
 FOREIGN KEY (examination_id)
 REFERENCES examinations(id)
 ON DELETE CASCADE;
+
+CREATE INDEX ON patients (cpf);
+CREATE INDEX ON patients (city);
+CREATE INDEX ON patients (state);
+CREATE INDEX ON doctors (crm);
+CREATE INDEX ON doctors (crm_state);
+CREATE INDEX ON examinations (patient_id);
+CREATE INDEX ON examinations (doctor_id);
+CREATE INDEX ON examinations (result_token);
+CREATE INDEX ON tests (examination_id);
+CREATE INDEX ON tests (type);
