@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../lib/models/test_model'
 
-RSpec.describe LabAnalysis do
+RSpec.describe Test do
   context 'quando inicializado' do
     it 'armazena as informações corretas no objeto' do
       patient = Patient.new(id: 13, cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',

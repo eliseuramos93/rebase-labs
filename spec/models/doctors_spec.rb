@@ -113,13 +113,18 @@ RSpec.describe Doctor do
       expect(doctor.full_name).to eq 'Dr. Ross Geller'
       expect(doctor.email).to eq 'wewereonabreak@gmail.com'
     end
+
+    it 'retorna nil caso nenhum médico seja encontrado' do
+      found_doctor = Doctor.find(id: 1, connection: @conn, end_connection: false)
+
+      expect(found_doctor).to be_nil
+    end
   end
 
   context '::find_by' do
     it 'retorna um objeto do tipo Doctor quando a pesquisa é feita com sucesso' do
       Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                     email: 'wewereonabreak@gmail.com')
-
       doctor = Doctor.find_by(crm: 'B000BJ20J4')
 
       expect(doctor).to be_a(Doctor)
