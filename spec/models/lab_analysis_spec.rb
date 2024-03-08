@@ -1,5 +1,7 @@
 require 'spec_helper'
 require_relative '../../lib/models/lab_analysis_model'
+require_relative '../../lib/models/patient_model'
+require_relative '../../lib/models/doctor_model'
 
 RSpec.describe LabAnalysis do
   context 'quando inicializado' do

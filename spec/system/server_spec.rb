@@ -1,4 +1,6 @@
 require 'spec_helper'
+require_relative '../../lib/services/database_service'
+require_relative '../../lib/strategies/csv_conversion_strategy'
 
 def app
   Sinatra::Application
@@ -16,11 +18,17 @@ RSpec.describe Sinatra::Application, type: :system do
 
   context 'GET /tests' do
     it 'retorna um arquivo JSON com o resultado dos testes' do
+      file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
+      converter = CSVConverter.new(CSVToJsonStrategy)
+      json_data = JSON.parse(converter.convert(file_path))
+      DatabaseService.insert_data(json_data:)
+
       get '/tests'
 
       expect(last_response).to be_ok
       expect(last_response.content_type).to include 'application/json'
       json_response = JSON.parse(last_response.body)
+      expect(json_response.count).to eq 4
       expect(json_response.first['cpf']).to eq '048.973.170-88'
       expect(json_response.first['nome paciente']).to eq 'Emilly Batista Neto'
       expect(json_response.first['email paciente']).to eq 'gerald.crona@ebert-quigley.com'

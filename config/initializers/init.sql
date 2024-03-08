@@ -16,3 +16,14 @@ CREATE TABLE exames (
     "limites tipo exame" VARCHAR(255),
     "resultado tipo exame" VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS patients (
+    id SERIAL NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    birth_date DATE NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(20) NOT NULL
+);
