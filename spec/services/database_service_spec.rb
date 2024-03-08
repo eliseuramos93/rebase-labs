@@ -9,8 +9,8 @@ RSpec.describe DatabaseService do
       connection = DatabaseService.connect
 
       expect(connection.status).to eq PG::Constants::CONNECTION_OK
-      expect(connection.host).to eq 'postgres'
-      expect(connection.db).to eq 'postgres'
+      expect(connection.host).to eq 'postgres-test'
+      expect(connection.db).to eq 'postgres-test'
       expect(connection.port).to eq 5432
       connection.close
     end
@@ -84,7 +84,7 @@ RSpec.describe DatabaseService do
       converter = CSVConverter.new(CSVToJsonStrategy)
       json_data = JSON.parse(converter.convert(file_path))
 
-      expect { DatabaseService.insert_data(json_data:, connection: nil) }.to raise_error(PG::UnableToSend)
+      expect { DatabaseService.insert_data(json_data:, connection: []) }.to raise_error(PG::UnableToSend)
       expect(@conn.exec('SELECT * FROM exames;').count).to eq 0
     end
   end
