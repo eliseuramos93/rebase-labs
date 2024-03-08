@@ -55,6 +55,32 @@ RSpec.describe Examination do
       expect(results.count).to eq 1
     end
 
+    it 'não cria um novo exame caso o paciente não exista' do
+      doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
+                             email: 'wewereonabreak@gmail.com')
+
+      Examination.create(patient_id: 1, doctor_id: doctor.id, result_token: 'SCCP10', date: '2023-10-31')
+
+      connection = DatabaseService.connect
+      results = connection.exec('SELECT * FROM examinations;')
+      connection.close
+
+      expect(results.count).to eq 0
+    end
+
+    it 'não cria um novo exame caso o médico não exista' do
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+                               birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+
+      Examination.create(patient_id: patient.id, doctor_id: 1, result_token: 'SCCP10', date: '2023-10-31')
+
+      connection = DatabaseService.connect
+      results = connection.exec('SELECT * FROM examinations;')
+      connection.close
+
+      expect(results.count).to eq 0
+    end
+
     it 'não cria um novo exame caso o token do resultado não seja informado' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
@@ -154,7 +180,14 @@ RSpec.describe Examination do
     end
 
     it 'retorna nil se o exame não for encontrado' do
-      found_examination = Examination.find_by(result_token: 'SCCP10')
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+                               birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+      doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
+                             email: 'wewereonabreak@gmail.com')
+      Examination.create(patient_id: patient.id, doctor_id: doctor.id, result_token: 'SCCP10',
+                         date: '2023-10-31')
+
+      found_examination = Examination.find_by(result_token: 'SCCP1910', date: '2023-10-31', patient_id: 1, doctor_id: 1)
 
       expect(found_examination).to be_nil
     end

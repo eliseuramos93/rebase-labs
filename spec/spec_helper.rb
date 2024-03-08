@@ -37,15 +37,16 @@ RSpec.configure do |config|
   # Configurações para testes usando o banco de dados de teste
   config.before(:each) do
     @conn = PG.connect(TEST_DB)
+    @conn.exec('SET client_min_messages TO warning;')
     @conn.exec('BEGIN')
   end
 
   config.after(:each) do
     @conn.exec('ROLLBACK') unless @conn.transaction_status.zero?
-    @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY;')
-    @conn.exec('TRUNCATE TABLE exames RESTART IDENTITY;')
-    @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY;')
-    @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY;')
+    @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY CASCADE;')
+    @conn.exec('TRUNCATE TABLE exames RESTART IDENTITY CASCADE;')
+    @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY CASCADE;')
+    @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY CASCADE;')
     @conn.close
   end
 end

@@ -1,3 +1,5 @@
+SET client_min_messages=WARNING;
+
 CREATE TABLE exames (
     cpf VARCHAR(14),
     "nome paciente" VARCHAR(255),
@@ -18,7 +20,7 @@ CREATE TABLE exames (
 );
 
 CREATE TABLE IF NOT EXISTS patients (
-    id SERIAL NOT NULL,
+    id SERIAL NOT NULL UNIQUE,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE IF NOT EXISTS patients (
 );
 
 CREATE TABLE IF NOT EXISTS doctors (
-    id SERIAL NOT NULL,
+    id SERIAL NOT NULL UNIQUE,
     crm VARCHAR(20) NOT NULL UNIQUE,
     crm_state VARCHAR(20) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
@@ -37,9 +39,35 @@ CREATE TABLE IF NOT EXISTS doctors (
 );
 
 CREATE TABLE IF NOT EXISTS examinations (
-    id SERIAL NOT NULL,
+    id SERIAL NOT NULL UNIQUE,
     patient_id INTEGER NOT NULL,
     doctor_id INTEGER NOT NULL,
     result_token VARCHAR(255) NOT NULL UNIQUE,
     date DATE NOT NULL
 );
+
+ALTER TABLE examinations
+ADD CONSTRAINT fk_patient_id 
+FOREIGN KEY (patient_id) 
+REFERENCES patients(id)
+ON DELETE CASCADE;
+
+ALTER TABLE examinations
+ADD CONSTRAINT fk_doctor_id
+FOREIGN KEY (doctor_id)
+REFERENCES doctors(id)
+ON DELETE CASCADE;
+
+CREATE TABLE IF NOT EXISTS tests (
+    id SERIAL NOT NULL UNIQUE,
+    examination_id INTEGER NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    limits VARCHAR(255) NOT NULL,
+    results VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE tests
+ADD CONSTRAINT fk_examination_id
+FOREIGN KEY (examination_id)
+REFERENCES examinations(id)
+ON DELETE CASCADE;

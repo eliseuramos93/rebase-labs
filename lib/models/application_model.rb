@@ -15,7 +15,7 @@ class ApplicationModel
     connection.exec('COMMIT') unless connection.transaction_status.zero?
     connection.close if end_connection
     instance
-  rescue PG::UniqueViolation, PG::NotNullViolation
+  rescue PG::UniqueViolation, PG::NotNullViolation, PG::ForeignKeyViolation
     nil
   end
 
@@ -47,6 +47,18 @@ class ApplicationModel
 
   private
 
+  private_class_method def self.return_first_result(result)
+    return nil if result.count.zero?
+
+    data = result.first.each_with_object({}) do |(key, value), hash|
+      value = key.end_with?('id') ? value.to_i : value
+      key = key.to_sym
+      hash[key] = value
+    end
+
+    new(**data)
+  end
+
   def table_name
     "#{self.class.name.downcase}s"
   end
@@ -71,19 +83,5 @@ class ApplicationModel
     instance_variables[1..].map do |column|
       instance_variable_get(column)
     end
-  end
-
-  private_class_method def self.symbolize_keys(result_hash)
-    result_hash.transform_keys(&:to_sym)
-  end
-
-  private_class_method def self.return_first_result(result)
-    return nil if result.count.zero?
-
-    data = result.first
-    data['id'] = data['id'].to_i
-    data['patient_id'] = data['patient_id'].to_i if data['patient_id']
-    data['doctor_id'] = data['doctor_id'].to_i if data['doctor_id']
-    new(**symbolize_keys(data))
   end
 end
