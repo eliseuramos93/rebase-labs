@@ -169,4 +169,42 @@ RSpec.describe Patient do
       expect(found_patient).to be_nil
     end
   end
+
+  context '::find_by' do
+    it 'retorna um objeto do tipo Patient quando a pesquisa é feita com sucesso' do
+      Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
+                     birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+
+      found_patient = Patient.find_by(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi',
+                                      email: 'reidobrega@gmail.com', birth_date: '1944-02-14',
+                                      address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+
+      expect(found_patient.id).to eq 1
+      expect(found_patient.cpf).to eq '283.368.670-66'
+      expect(found_patient.full_name).to eq 'Reginaldo Rossi'
+      expect(found_patient.email).to eq 'reidobrega@gmail.com'
+      expect(found_patient.birth_date).to eq '1944-02-14'
+      expect(found_patient.address).to eq '200 Rua do Garçom'
+      expect(found_patient.city).to eq 'Recife'
+      expect(found_patient.state).to eq 'PE'
+    end
+
+    it 'retorna nil quando nenhum parâmetro é informado' do
+      found_patient = Patient.find_by
+
+      expect(found_patient).to be_nil
+    end
+
+    it 'retorna nil quando a pesquisa não encontra nada' do
+      found_patient = Patient.find_by(cpf: '123.456.789-00')
+
+      expect(found_patient).to be_nil
+    end
+
+    it 'retorna nil se uma coluna inválida é informada' do
+      found_patient = Patient.find_by(potato: 'hello')
+
+      expect(found_patient).to be_nil
+    end
+  end
 end
