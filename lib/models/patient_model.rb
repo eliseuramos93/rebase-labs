@@ -1,5 +1,3 @@
-require_relative '../services/database_service'
-
 class Patient
   attr_accessor :id, :cpf, :full_name, :email, :birth_date, :address, :city, :state
 

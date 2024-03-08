@@ -27,3 +27,11 @@ CREATE TABLE IF NOT EXISTS patients (
     city VARCHAR(100) NOT NULL,
     state VARCHAR(20) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS doctors (
+    id SERIAL NOT NULL,
+    crm VARCHAR(20) NOT NULL UNIQUE,
+    crm_state VARCHAR(20) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);

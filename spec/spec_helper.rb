@@ -44,6 +44,7 @@ RSpec.configure do |config|
     @conn.exec('ROLLBACK') unless @conn.transaction_status.zero?
     @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY;')
     @conn.exec('TRUNCATE TABLE exames RESTART IDENTITY;')
+    @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY;')
     @conn.close
   end
 end
