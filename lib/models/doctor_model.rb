@@ -6,7 +6,6 @@ class Doctor < ApplicationModel
   def initialize(**attributes)
     super
 
-    @id = attributes[:id]
     @crm = attributes[:crm]
     @crm_state = attributes[:crm_state]
     @full_name = attributes[:full_name]

@@ -28,13 +28,13 @@ class ApplicationModel
     return_first_result(result)
   end
 
-  def self.find_by(connection: nil, **args)
+  def self.find_by(connection: nil, end_connection: true, **args)
     return nil if args.empty?
 
     connection ||= DatabaseService.connect
     query = args.map { |column, value| "#{column} = '#{value}'" }.join(' AND ')
     result = connection.exec("SELECT * FROM #{table_name} WHERE #{query}")
-    connection.close
+    connection.close if end_connection
 
     return_first_result(result)
   rescue PG::UndefinedColumn
