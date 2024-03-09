@@ -24,7 +24,7 @@ RSpec.describe Examination do
 
   context '::create' do
     it 'consiste no banco de dados as informações do exame' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -40,7 +40,7 @@ RSpec.describe Examination do
     end
 
     it 'não cria um novo exame caso o token do resultado já exista' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -70,7 +70,7 @@ RSpec.describe Examination do
     end
 
     it 'não cria um novo exame caso o médico não exista' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
 
       Examination.create(patient_id: patient.id, doctor_id: 1, result_token: 'SCCP10', date: '2023-10-31')
@@ -83,7 +83,7 @@ RSpec.describe Examination do
     end
 
     it 'não cria um novo exame caso o token do resultado não seja informado' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -97,7 +97,7 @@ RSpec.describe Examination do
     end
 
     it 'não cria um novo exame caso a data não seja informada' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -123,7 +123,7 @@ RSpec.describe Examination do
     end
 
     it 'não cria um novo exame caso o médico não seja informado' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
 
       Examination.create(patient_id: patient.id, doctor_id: nil, result_token: 'SCCP10', date: '2023-10-31')
@@ -137,7 +137,7 @@ RSpec.describe Examination do
 
   context '::find' do
     it 'retorna um objeto do tipo Examination com as informações corretas' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -163,7 +163,7 @@ RSpec.describe Examination do
 
   context '::find_by' do
     it 'retorna um objeto do tipo Examination com as informações corretas' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -181,7 +181,7 @@ RSpec.describe Examination do
     end
 
     it 'retorna nil se o exame não for encontrado' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -208,12 +208,12 @@ RSpec.describe Examination do
 
   context '::all_to_json' do
     it 'retorna um array de objetos do tipo Examination em formato JSON' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
       examination = Examination.create(patient_id: patient.id, doctor_id: doctor.id, result_token: 'SCCP10',
-                         date: '2023-10-31')
+                                       date: '2023-10-31')
       Test.create(examination_id: examination.id, type: 'Hemácias', limits: '45-52', results: '97')
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
@@ -223,7 +223,7 @@ RSpec.describe Examination do
       expect(results[0][:date]).to eq '2023-10-31'
       expect(results[0][:cpf]).to eq '283.368.670-66'
       expect(results[0][:full_name]).to eq 'Reginaldo Rossi'
-      expect(results[0][:email]).to eq 'reidobrega@gmailcom'
+      expect(results[0][:email]).to eq 'reidobrega@gmail.com'
       expect(results[0][:birth_date]).to eq '1944-02-14'
       expect(results[0][:doctor][:crm]).to eq 'B000BJ20J4'
       expect(results[0][:doctor][:crm_state]).to eq 'PI'

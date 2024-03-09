@@ -1,7 +1,7 @@
 require_relative 'application_model'
 
 class Examination < ApplicationModel
-  ALL_EXAMS_SQL ='SELECT e.id, e.result_token, e.date, p.cpf, p.full_name, p.email, p.birth_date, d.crm, d.crm_state,
+  ALL_EXAMS_SQL = 'SELECT e.id, e.result_token, e.date, p.cpf, p.full_name, p.email, p.birth_date, d.crm, d.crm_state,
   d.full_name as doctor_name
   FROM examinations e
   JOIN patients p ON e.patient_id = p.id
@@ -44,7 +44,5 @@ class Examination < ApplicationModel
     }
   end
 
-  private_class_method def self.generate_exams_sql
-
-  end
+  private_class_method def self.generate_exams_sql; end
 end
