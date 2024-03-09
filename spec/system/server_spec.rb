@@ -1,6 +1,5 @@
 require 'spec_helper'
 require_relative '../../lib/services/database_service'
-require_relative '../../lib/strategies/csv_conversion_strategy'
 require_relative '../../lib/models/patient_model'
 require_relative '../../lib/models/doctor_model'
 require_relative '../../lib/models/examination_model'
