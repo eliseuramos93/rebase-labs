@@ -10,10 +10,6 @@ get '/tests' do
   DatabaseService.select_all_tests(connection:)
 end
 
-get '/hello' do
-  'Hello world!'
-end
-
-get '/home' do
+get '/' do
   erb :index
 end

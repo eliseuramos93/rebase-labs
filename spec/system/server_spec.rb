@@ -7,15 +7,6 @@ def app
 end
 
 RSpec.describe Sinatra::Application, type: :system do
-  context 'GET /hello' do
-    it 'fala Hello world! para o usuário' do
-      get '/hello'
-
-      expect(last_response).to be_ok
-      expect(last_response.body).to include 'Hello world!'
-    end
-  end
-
   context 'GET /tests' do
     it 'retorna um arquivo JSON com o resultado dos testes' do
       file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
@@ -48,14 +39,14 @@ RSpec.describe Sinatra::Application, type: :system do
     end
   end
 
-  context 'GET /home' do
+  context 'GET /' do
     it 'retorna uma tabela com as informações dos exames', js: true do
       file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
       converter = CSVConverter.new(CSVToJsonStrategy)
       json_data = JSON.parse(converter.convert(file_path))
       DatabaseService.insert_data(json_data:)
 
-      visit '/home'
+      visit '/'
 
       expect(page).to have_content 'Resultados dos Exames'
       expect(page).to have_content '048.973.170-88'
