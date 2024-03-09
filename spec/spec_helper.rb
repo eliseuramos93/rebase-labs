@@ -1,16 +1,5 @@
 ENV['APP_ENV'] = 'test'
 
-require 'simplecov'
-SimpleCov.start do
-  # add_filter Dir.pwd.concat('/import_from_csv.rb')
-end
-
-require_relative '../server'
-require 'rack/test'
-require 'rspec'
-require 'debug'
-require 'pg'
-
 TEST_DB = {
   dbname: 'postgres-test',
   user: 'postgres-test',
@@ -19,8 +8,25 @@ TEST_DB = {
   host: 'postgres-test'
 }.freeze
 
+require_relative '../server'
+require 'capybara/rspec'
+require 'debug'
+require 'pg'
+require 'rack/test'
+require 'rspec'
+require 'simplecov'
+require 'selenium-webdriver'
+require 'webdriver'
+
+SimpleCov.start
+Capybara.app = Sinatra::Application
+Capybara.server = :puma, { Silent: true }
+Capybara.javascript_driver = :selenium_headless
+Capybara.default_driver = :rack_test
+
 RSpec.configure do |config|
   include Rack::Test::Methods
+  Capybara.server_port = 4242
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

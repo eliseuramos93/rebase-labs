@@ -10,13 +10,6 @@ get '/tests' do
   DatabaseService.select_all_tests(connection:)
 end
 
-get '/hello' do
-  'Hello world!'
-end
-
-get '/home' do
-  content_type 'text/html'
-
-  path = File.join(Dir.pwd, 'public', 'index.html')
-  File.open(path)
+get '/' do
+  erb :index
 end

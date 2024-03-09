@@ -1,8 +1,7 @@
-const tests_url = 'http://localhost:3000/tests'
-
 fetch(tests_url)
   .then((response) => response.json())
   .then((data) => {
+    console.log('consegui pegar os dados');
     const table = document.getElementById('tbody')
     const pagination = document.getElementById('pagination');
     const itemsPerPage = 100;
