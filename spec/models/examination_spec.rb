@@ -2,6 +2,7 @@ require 'spec_helper'
 require_relative '../../lib/models/examination_model'
 require_relative '../../lib/models/patient_model'
 require_relative '../../lib/models/doctor_model'
+require_relative '../../lib/models/test_model'
 
 RSpec.describe Examination do
   context 'quando inicializado' do
@@ -202,6 +203,37 @@ RSpec.describe Examination do
       found_examination = Examination.find_by(invalid_column: 'invalid_value')
 
       expect(found_examination).to be_nil
+    end
+  end
+
+  context '::all_to_json' do
+    it 'retorna um array de objetos do tipo Examination em formato JSON' do
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+                               birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+      doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
+                             email: 'wewereonabreak@gmail.com')
+      examination = Examination.create(patient_id: patient.id, doctor_id: doctor.id, result_token: 'SCCP10',
+                         date: '2023-10-31')
+      Test.create(examination_id: examination.id, type: 'Hemácias', limits: '45-52', results: '97')
+      Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
+
+      results = Examination.all_to_json
+
+      expect(results[0][:result_token]).to eq 'SCCP10'
+      expect(results[0][:date]).to eq '2023-10-31'
+      expect(results[0][:cpf]).to eq '283.368.670-66'
+      expect(results[0][:full_name]).to eq 'Reginaldo Rossi'
+      expect(results[0][:email]).to eq 'reidobrega@gmailcom'
+      expect(results[0][:birth_date]).to eq '1944-02-14'
+      expect(results[0][:doctor][:crm]).to eq 'B000BJ20J4'
+      expect(results[0][:doctor][:crm_state]).to eq 'PI'
+      expect(results[0][:doctor][:full_name]).to eq 'Dr. Ross Geller'
+      expect(results[0][:tests][0][:type]).to eq 'Hemácias'
+      expect(results[0][:tests][0][:limits]).to eq '45-52'
+      expect(results[0][:tests][0][:results]).to eq '97'
+      expect(results[0][:tests][1][:type]).to eq 'Glóbulos Neutrônicos'
+      expect(results[0][:tests][1][:limits]).to eq '2-8'
+      expect(results[0][:tests][1][:results]).to eq '5'
     end
   end
 end
