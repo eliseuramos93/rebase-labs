@@ -15,8 +15,5 @@ get '/hello' do
 end
 
 get '/home' do
-  content_type 'text/html'
-
-  path = File.join(Dir.pwd, 'public', 'index.html')
-  File.open(path)
+  erb :index
 end

@@ -21,6 +21,13 @@
         </div>
         <div id="pagination"></div>
     </section>
+    <script>
+        <% if ENV['APP_ENV'] == 'test' %>
+            const tests_url = 'http://127.0.0.1:4242/tests'
+        <% else %>
+            const tests_url = 'http://localhost:3000/tests'
+        <% end %>
+    </script>
     <script src="main.js"></script>
 </body>
 </html>
