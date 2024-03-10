@@ -1,5 +1,6 @@
 body {
     background-color: #111;
+    color: #DDD;
     font-family: Helvetica, sans-serif;
 }
 
@@ -13,6 +14,11 @@ table {
     border: 1px solid #DDD;
     width: 90vw; 
     white-space: nowrap;
+}
+
+.search-exam-results {
+    max-width: 90vw;
+    margin: auto;
 }
 
 .table-div {
@@ -68,6 +74,10 @@ h2 {
     border-radius: 4px;
 }
 
+.normal-btn {
+    max-width: none;
+}
+
 .search-field {
     margin-bottom: 1rem;
     text-align: center;
@@ -76,4 +86,12 @@ h2 {
 input {
     width: 20%;
     text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.search-result-cell {
+    text-transform: capitalize;
 }

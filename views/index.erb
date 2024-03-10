@@ -7,12 +7,24 @@
     <title>Rebase Labs</title>
 </head>
 <body>
-    <section id="test-results">
-        <h2>Resultados dos Exames</h2>
+    <h2>Resultados dos Exames</h2>
+    <br>
+    <p id="alerts"></p>
+    <form id="search-exams-form">
+        <label for="result-token">Código do Exame</label>
+        <input id="result-token" name="result-token" type="text" />
+        <button id="search-exam-button" type="submit" class="btn normal-btn">Buscar</button>
+    </form>
+    <section id="search-exam-results-section" class="hidden">
+        <button id="back-to-list-button" class="btn normal-btn">Voltar para a lista</button>
+        <div id="search-exam-info"></div>
+        <div id="search-exam-test-results" class="table-div"></div>
+    </section>
+    <section id="list-exams-section">
         <div class="table-div">
-            <table id="test-results-table">
+            <table id="list-exams-table">
                 <thead>
-                    <tr id="table-headers">
+                    <tr id="list-exams-table-headers">
                         <th>Token do exame</th>
                         <th>Data do resultado</th>
                         <th>Nome completo</th>
@@ -24,19 +36,12 @@
                         <th>Nome do médico(a)</th>
                     </tr>
                 </thead>
-                <tbody id="tbody">
+                <tbody id="list-exams-tbody">
                 </tbody>
             </table>
         </div>
         <div id="pagination"></div>
     </section>
-    <script>
-        <% if ENV['APP_ENV'] == 'test' %>
-            const tests_url = 'http://127.0.0.1:4242/tests'
-        <% else %>
-            const tests_url = 'http://localhost:3000/tests'
-        <% end %>
-    </script>
     <script src="main.js"></script>
 </body>
 </html>

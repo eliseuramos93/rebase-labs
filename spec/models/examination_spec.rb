@@ -228,12 +228,12 @@ RSpec.describe Examination do
       expect(results[0][:doctor][:crm]).to eq 'B000BJ20J4'
       expect(results[0][:doctor][:crm_state]).to eq 'PI'
       expect(results[0][:doctor][:full_name]).to eq 'Dr. Ross Geller'
-      expect(results[0][:tests][0][:type]).to eq 'Hemácias'
-      expect(results[0][:tests][0][:limits]).to eq '45-52'
-      expect(results[0][:tests][0][:results]).to eq '97'
-      expect(results[0][:tests][1][:type]).to eq 'Glóbulos Neutrônicos'
-      expect(results[0][:tests][1][:limits]).to eq '2-8'
-      expect(results[0][:tests][1][:results]).to eq '5'
+      expect(results[0][:tests][0][:type]).to eq 'Glóbulos Neutrônicos'
+      expect(results[0][:tests][0][:limits]).to eq '2-8'
+      expect(results[0][:tests][0][:results]).to eq '5'
+      expect(results[0][:tests][1][:type]).to eq 'Hemácias'
+      expect(results[0][:tests][1][:limits]).to eq '45-52'
+      expect(results[0][:tests][1][:results]).to eq '97'
     end
 
     it 'retorna um array vazio se não houver exames cadastrados' do
@@ -277,12 +277,12 @@ RSpec.describe Examination do
       expect(result[:doctor][:crm]).to eq 'B000BJ20J4'
       expect(result[:doctor][:crm_state]).to eq 'PI'
       expect(result[:doctor][:full_name]).to eq 'Dr. Ross Geller'
-      expect(result[:tests][0][:type]).to eq 'Hemácias'
-      expect(result[:tests][0][:limits]).to eq '45-52'
-      expect(result[:tests][0][:results]).to eq '97'
-      expect(result[:tests][1][:type]).to eq 'Glóbulos Neutrônicos'
-      expect(result[:tests][1][:limits]).to eq '2-8'
-      expect(result[:tests][1][:results]).to eq '5'
+      expect(result[:tests][0][:type]).to eq 'Glóbulos Neutrônicos'
+      expect(result[:tests][0][:limits]).to eq '2-8'
+      expect(result[:tests][0][:results]).to eq '5'
+      expect(result[:tests][1][:type]).to eq 'Hemácias'
+      expect(result[:tests][1][:limits]).to eq '45-52'
+      expect(result[:tests][1][:results]).to eq '97'
     end
 
     it 'retorna uma mensagem de erro caso não o exame não seja encontrado' do

@@ -1,9 +1,11 @@
-fetch(tests_url)
+const alerts = document.getElementById('alerts');
+// Criar tabela listando todos os exames
+fetch('/tests')
   .then((response) => response.json())
   .then((data) => {
-    const table = document.getElementById('tbody')
+    const table = document.getElementById('list-exams-tbody')
     const pagination = document.getElementById('pagination');
-    const itemsPerPage = 100;
+    const itemsPerPage = 30;
     let currentPage = 0;
 
     function addValueToTable(value, tableRow) {
@@ -27,7 +29,6 @@ fetch(tests_url)
             addValueToTable(value, tableRow);
           } else if ('crm' in value) {
             Object.values(value).forEach((doctorValue) => {
-              console.log(doctorValue)
               addValueToTable(doctorValue, tableRow);
             })
           }
@@ -54,5 +55,120 @@ fetch(tests_url)
 
     displayData(data, currentPage);
     setupPagination(data);
-    console.log(data[0])
   });
+
+// Pesquisando por um exame específico usando o formulário
+
+const listExamsSection = document.getElementById('list-exams-section');
+const searchExamResultsSection = document.getElementById('search-exam-results-section');
+const searchExamButton = document.getElementById('search-exam-button');
+const resultToken = document.getElementById('result-token');
+const searchExamInfoDiv = document.getElementById('search-exam-info');
+const searchExamResustsTableDiv = document.getElementById('search-exam-test-results');
+
+searchExamButton.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  if (resultToken.value == '') {
+    alerts.classList = 'alert warning';
+    alerts.innerHTML = 'É necessário informar o código do exame para realizar a busca.'
+    return;
+  } 
+
+  searchExamResustsTableDiv.innerHTML = '';
+  searchExamInfoDiv.innerHTML = '';
+
+  function createListTitleValuePair(list, title, value) {
+    const titleElement = document.createElement('dt');
+    const valueElement = document.createElement('dd');
+    titleElement.textContent = title;
+    valueElement.textContent = value;
+    list.appendChild(titleElement);
+    list.appendChild(valueElement);
+  };
+
+  function createTestResultsRow(tbody, test) {
+    const testRow = document.createElement('tr');
+    
+    Object.values(test).forEach((value) => {
+      const testCell = document.createElement('td');
+      testCell.textContent = value;
+      testCell.classList.add('table-cell');
+      testCell.classList.add('search-result-cell');
+      testRow.appendChild(testCell);
+    });
+
+    tbody.appendChild(testRow);
+  };
+
+  function createTestsResultTable(tests) {
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+    const headerRow = document.createElement('tr');
+    const headers = ['Teste', 'Limites', 'Resultado'];
+
+    headers.forEach((header) => {
+      const headerCell = document.createElement('th');
+      headerCell.textContent = header;
+      headerCell.classList.add('table-cell');
+      headerRow.appendChild(headerCell);
+    });
+
+    tests.forEach((test) => {
+      createTestResultsRow(tbody, test);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    searchExamResustsTableDiv.appendChild(table);
+  }
+
+  fetch(`/tests/${resultToken.value}`).
+    then((response) => response.json()).
+    then((data) => {
+      if ('errors' in data) {
+        alerts.classList = 'alert error';
+        alerts.innerHTML = data.errors.message;
+        return;
+      }
+      if (searchExamResultsSection.classList.contains('hidden')) {
+        listExamsSection.classList.toggle('hidden');
+        searchExamResultsSection.classList.toggle('hidden');
+      };
+      
+      const foundExamList = document.createElement('dl');
+      
+      createListTitleValuePair(foundExamList, 'Exame:', data.result_token);
+      createListTitleValuePair(foundExamList, 'Data do resultado (AAAA-MM-DD):', data.date);
+      createListTitleValuePair(foundExamList, 'Nome:', data.full_name);
+      createListTitleValuePair(foundExamList, 'CPF:', data.cpf);
+      createListTitleValuePair(foundExamList, 'E-mail:', data.email);
+      createListTitleValuePair(foundExamList, 'Data de nascimento (AAAA-MM-DD):', data.birth_date);
+      createListTitleValuePair(foundExamList, 'Médico(a):', data.doctor.full_name);
+      createListTitleValuePair(foundExamList, 'CRM:', data.doctor.crm);
+      createListTitleValuePair(foundExamList, 'Estado do CRM:', data.doctor.crm_state);
+      createTestsResultTable(data.tests);
+      
+      searchExamInfoDiv.appendChild(foundExamList);
+      alerts.classList = 'alert success';
+      alerts.innerHTML = 'Exame encontrado com sucesso!'
+      console.log(data);
+    })
+});
+
+// Botão para retornar ao modo de visualização da lista de resultados
+
+const backToListButton = document.getElementById('back-to-list-button');
+
+backToListButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  listExamsSection.classList.toggle('hidden');
+  searchExamResultsSection.classList.toggle('hidden');
+  alerts.innerHTML = '';
+  alerts.classList = '';
+  searchExamResustsTableDiv.innerHTML = '';
+  searchExamInfoDiv.innerHTML = '';
+  resultToken.value = '';
+});

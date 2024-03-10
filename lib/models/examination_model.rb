@@ -40,7 +40,7 @@ class Examination < ApplicationModel
 
   private_class_method def self.create_examination_hash(examination:, connection:)
     exam_id = examination['id'].to_i
-    tests_array = connection.exec("SELECT type, limits, results FROM tests WHERE examination_id = #{exam_id}").to_a
+    tests_array = select_distinct_tests_from_exam_id(connection:, exam_id:)
 
     { result_token: examination['result_token'],
       date: examination['date'],
@@ -58,5 +58,9 @@ class Examination < ApplicationModel
 
   private_class_method def self.examination_not_found
     { errors: { message: 'Não foi encontrado nenhum exame com o token informado.' } }
+  end
+
+  private_class_method def self.select_distinct_tests_from_exam_id(connection:, exam_id:)
+    connection.exec("SELECT DISTINCT ON (type) type, limits, results FROM tests WHERE examination_id = #{exam_id}").to_a
   end
 end

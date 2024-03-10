@@ -130,8 +130,8 @@ GET '/tests'
 - **Exemplo de retorno**:
 ```json
 {
-  errors: {
-    message: "Não foi possível conectar-se ao banco de dados."
+  "errors": {
+    "message": "Não foi possível conectar-se ao banco de dados."
   }
 }
 ```
@@ -184,8 +184,8 @@ GET '/tests'
 - **Exemplo de retorno**:
 ```json
 {
-  errors: {
-    message: "Não foi possível conectar-se ao banco de dados."
+  "errors": {
+    "message": "Não foi possível conectar-se ao banco de dados."
   }
 }
 ```
@@ -195,8 +195,8 @@ GET '/tests'
 - **Exemplo de retorno**:
 ```json
 {
-  errors: {
-    message: "Não foi encontrado nenhum exame com o token informado."
+  "errors": {
+    "message": "Não foi encontrado nenhum exame com o token informado."
   }
 }
 ```
@@ -207,8 +207,8 @@ GET '/tests'
 - **Exemplo de retorno**:
 ```json
 {
-  errors: {
-    message: "Não foi possível conectar-se ao banco de dados."
+  "errors": {
+    "message": "Não foi possível conectar-se ao banco de dados."
   }
 }
 ```
