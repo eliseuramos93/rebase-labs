@@ -25,7 +25,7 @@ RSpec.describe Test do
 
   context '::create' do
     it 'consiste no banco de dados as informações do exame' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -74,7 +74,7 @@ RSpec.describe Test do
 
   context '::find' do
     it 'retorna um objeto do tipo Teste com as informações do teste' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -101,7 +101,7 @@ RSpec.describe Test do
 
   context '::find_by' do
     it 'retorna um objeto do tipo Teste com as informações do teste' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
@@ -120,7 +120,7 @@ RSpec.describe Test do
     end
 
     it 'retorna nil se o teste não for encontrado' do
-      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmailcom',
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                              email: 'wewereonabreak@gmail.com')
