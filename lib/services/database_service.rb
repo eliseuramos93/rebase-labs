@@ -14,6 +14,20 @@ TEST_DB_CONFIG = {
   host: 'postgres-test'
 }.freeze
 
+ALL_EXAMS_SQL = 'SELECT e.id, e.result_token, e.date, p.cpf, p.full_name, p.email, p.birth_date, d.crm, d.crm_state,
+d.full_name as doctor_name
+FROM examinations e
+JOIN patients p ON e.patient_id = p.id
+JOIN doctors d ON e.doctor_id = d.id
+ORDER BY e.result_token ASC'.freeze
+
+FIND_EXAM_BY_TOKEN = 'SELECT e.id, e.result_token, e.date, p.cpf, p.full_name, p.email, p.birth_date, d.crm,
+d.crm_state, d.full_name as doctor_name
+FROM examinations e
+JOIN patients p ON e.patient_id = p.id
+JOIN doctors d ON e.doctor_id = d.id
+WHERE e.result_token ='.freeze
+
 require 'pg'
 require 'json'
 
