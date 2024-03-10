@@ -43,7 +43,7 @@ RSpec.describe Sinatra::Application, type: :system do
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
       visit '/'
-      fill_in 'Código do Exame', with: 'SCCP10'
+      fill_in 'Token do exame', with: 'SCCP10'
       click_button 'Buscar'
 
       expect(page).to have_current_path '/'
@@ -79,7 +79,7 @@ RSpec.describe Sinatra::Application, type: :system do
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
       visit '/'
-      fill_in 'Código do Exame', with: ''
+      fill_in 'Token do exame', with: ''
       click_button 'Buscar'
 
       expect(page).to have_current_path '/'
@@ -115,7 +115,7 @@ RSpec.describe Sinatra::Application, type: :system do
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
       visit '/'
-      fill_in 'Código do Exame', with: 'SCCP1910'
+      fill_in 'Token do exame', with: 'SCCP1910'
       click_button 'Buscar'
 
       expect(page).to have_current_path '/'
@@ -128,7 +128,7 @@ RSpec.describe Sinatra::Application, type: :system do
       allow(DatabaseService).to receive(:connect).and_raise(PG::ConnectionBad)
 
       visit '/'
-      fill_in 'Código do Exame', with: 'SCCP1910'
+      fill_in 'Token do exame', with: 'SCCP1910'
       click_button 'Buscar'
 
       expect(page).to have_current_path '/'
@@ -148,7 +148,7 @@ RSpec.describe Sinatra::Application, type: :system do
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
       visit '/'
-      fill_in 'Código do Exame', with: 'SCCP10'
+      fill_in 'Token do exame', with: 'SCCP10'
       click_on 'Buscar'
       click_on 'Voltar para a lista'
 
