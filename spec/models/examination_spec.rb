@@ -206,7 +206,7 @@ RSpec.describe Examination do
     end
   end
 
-  context '::all_to_json' do
+  context '::select_all_to_json' do
     it 'retorna um array de objetos do tipo Examination em formato JSON' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
@@ -217,7 +217,7 @@ RSpec.describe Examination do
       Test.create(examination_id: examination.id, type: 'Hemácias', limits: '45-52', results: '97')
       Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
 
-      results = Examination.all_to_json
+      results = Examination.select_all_to_json
 
       expect(results[0][:result_token]).to eq 'SCCP10'
       expect(results[0][:date]).to eq '2023-10-31'
@@ -234,6 +234,87 @@ RSpec.describe Examination do
       expect(results[0][:tests][1][:type]).to eq 'Glóbulos Neutrônicos'
       expect(results[0][:tests][1][:limits]).to eq '2-8'
       expect(results[0][:tests][1][:results]).to eq '5'
+    end
+
+    it 'retorna um array vazio se não houver exames cadastrados' do
+      results = Examination.select_all_to_json
+
+      json_response = JSON.parse(results.to_json)
+      expect(json_response).to eq []
+    end
+
+    it 'retorna uma mensagem de erro caso a conexão com o banco de dados falhe' do
+      allow(DatabaseService).to receive(:connect).and_raise(PG::ConnectionBad)
+
+      results = Examination.select_all_to_json
+
+      json_response = JSON.parse(results.to_json)
+      expect(json_response.class).to eq Hash
+      expect(json_response['errors']['message']).to eq 'Não foi possível conectar-se ao banco de dados.'
+    end
+  end
+
+  context '::select_to_json' do
+    it 'returna um hash com as informações do exame' do
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
+                               birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+      doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
+                             email: 'wewereonabreak@gmail.com')
+      examination = Examination.create(patient_id: patient.id, doctor_id: doctor.id, result_token: 'SCCP10',
+                                       date: '2023-10-31')
+      Test.create(examination_id: examination.id, type: 'Hemácias', limits: '45-52', results: '97')
+      Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
+
+      result = Examination.select_to_json(result_token: 'SCCP10')
+
+      expect(result.class).to be Hash
+      expect(result[:result_token]).to eq 'SCCP10'
+      expect(result[:date]).to eq '2023-10-31'
+      expect(result[:cpf]).to eq '283.368.670-66'
+      expect(result[:full_name]).to eq 'Reginaldo Rossi'
+      expect(result[:email]).to eq 'reidobrega@gmail.com'
+      expect(result[:birth_date]).to eq '1944-02-14'
+      expect(result[:doctor][:crm]).to eq 'B000BJ20J4'
+      expect(result[:doctor][:crm_state]).to eq 'PI'
+      expect(result[:doctor][:full_name]).to eq 'Dr. Ross Geller'
+      expect(result[:tests][0][:type]).to eq 'Hemácias'
+      expect(result[:tests][0][:limits]).to eq '45-52'
+      expect(result[:tests][0][:results]).to eq '97'
+      expect(result[:tests][1][:type]).to eq 'Glóbulos Neutrônicos'
+      expect(result[:tests][1][:limits]).to eq '2-8'
+      expect(result[:tests][1][:results]).to eq '5'
+    end
+
+    it 'retorna uma mensagem de erro caso não o exame não seja encontrado' do
+      patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
+                               birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
+      doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
+                             email: 'wewereonabreak@gmail.com')
+      examination = Examination.create(patient_id: patient.id, doctor_id: doctor.id, result_token: 'SCCP10',
+                                       date: '2023-10-31')
+      Test.create(examination_id: examination.id, type: 'Hemácias', limits: '45-52', results: '97')
+      Test.create(examination_id: examination.id, type: 'Glóbulos Neutrônicos', limits: '2-8', results: '5')
+
+      result = Examination.select_to_json(result_token: 'SCCP1910')
+
+      expect(result.class).to be Hash
+      expect(result[:errors][:message]).to eq 'Não foi encontrado nenhum exame com o token informado.'
+    end
+
+    it 'retorna uma mensagem de erro caso o banco de dados esteja vazio e uma pesquisa seja feita' do
+      result = Examination.select_to_json(result_token: 'SCCP1910')
+
+      expect(result.class).to be Hash
+      expect(result[:errors][:message]).to eq 'Não foi encontrado nenhum exame com o token informado.'
+    end
+
+    it 'retorna uma mensagem de erro caso a conexão com o banco de dados falhe' do
+      allow(DatabaseService).to receive(:connect).and_raise(PG::ConnectionBad)
+
+      result = Examination.select_to_json(result_token: 'SCCP1910')
+
+      expect(result.class).to be Hash
+      expect(result[:errors][:message]).to eq 'Não foi possível conectar-se ao banco de dados.'
     end
   end
 end
