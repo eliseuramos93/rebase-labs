@@ -21,5 +21,6 @@ get '/tests/:result_token?' do
 end
 
 post '/import' do
-  ImportDataJob.perform_async
+  file_path = File.join(Dir.pwd, 'config', 'initializers', 'data.csv')
+  ImportDataJob.perform_async(file_path)
 end

@@ -330,4 +330,15 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(json_response['errors']['message']).to eq 'Não foi possível conectar-se ao banco de dados.'
     end
   end
+
+  context 'POST /import' do
+    it 'enfileira um job para importar os dados' do
+      job_spy = spy('ImportDataJob')
+      stub_const('ImportDataJob', job_spy)
+
+      post '/import'
+
+      expect(job_spy).to have_received(:perform_async).once
+    end
+  end
 end
