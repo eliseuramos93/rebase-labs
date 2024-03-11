@@ -5,6 +5,7 @@ gem 'pg'
 gem 'puma'
 gem 'rack'
 gem 'rackup'
+gem 'sidekiq'
 gem 'sinatra'
 
 group :development, :test do
