@@ -6,11 +6,11 @@ require_relative '../../lib/models/examination_model'
 require_relative '../../lib/models/test_model'
 
 module ImportCSVService
-  def self.run(file_path:, connection: nil)
+  def self.run(data:, connection: nil)
     connection ||= DatabaseService.connect
-    data = read_file(file_path:)
+    parsed_data = parse_data(data:)
     connection.transaction do |conn|
-      data.each do |row|
+      parsed_data.each do |row|
         insert_row_into_database(row:, connection: conn, end_connection: false)
       end
     end
@@ -48,9 +48,10 @@ module ImportCSVService
     Test.create(examination_id: examination.id, type:, limits:, results:, connection:, end_connection:)
   end
 
-  private_class_method def self.read_file(file_path:)
-    data = CSV.read(file_path, headers: true, col_sep: ';').to_a
-    data.shift
-    data
+  private_class_method def self.parse_data(data:)
+    data = data.instance_of?(Hash) ? data['data'] : data
+    parsed_data = CSV.parse(data, headers: true, col_sep: ';').to_a
+    parsed_data.shift
+    parsed_data
   end
 end

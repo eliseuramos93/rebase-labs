@@ -21,6 +21,7 @@ get '/tests/:result_token?' do
 end
 
 post '/import' do
-  file_path = File.join(Dir.pwd, 'config', 'initializers', 'data.csv')
-  ImportDataJob.perform_async(file_path)
+  request.body.rewind
+  data = request.body.read.force_encoding('UTF-8')
+  ImportDataJob.perform_async(data)
 end
