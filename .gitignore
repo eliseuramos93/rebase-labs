@@ -1,5 +1,2 @@
-# Ocultar arquivos gerados pelo SimpleCov
-coverage
-
-# Ocultar arquivo sobre falhas de testes no RSpec
-spec/support/failures.txt
+**/coverage
+**/spec/support/failures.txt

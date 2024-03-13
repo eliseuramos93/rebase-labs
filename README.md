@@ -20,7 +20,7 @@ A aplicação sempre que possível priorizará o Português (mais especificament
 
 ## Como executar a aplicação
 
-Em um terminal aberto no diretório do projeto, basta executar o comando abaixo para configurar a aplicação:
+Em um terminal aberto no diretório do projeto, basta executar o comando abaixo para iniciar a aplicação:
 
 ```bash
 bin/dev
@@ -34,7 +34,7 @@ Basta executar o comando abaixo em um terminal aberto no diretório do projeto p
 docker compose down
 ```
 
-## Endpoints disponíveis
+## Endpoints disponíveis no Backend
 
 ### GET /
 ```bash

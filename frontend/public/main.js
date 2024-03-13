@@ -3,6 +3,12 @@ const alerts = document.getElementById('alerts');
 fetch('/tests')
   .then((response) => response.json())
   .then((data) => {
+    if ('errors' in data) {
+      alerts.classList = 'alert error';
+      alerts.innerHTML = data.errors.message;
+      return;
+    }
+
     const table = document.getElementById('list-exams-tbody')
     const pagination = document.getElementById('pagination');
     const itemsPerPage = 30;
@@ -193,10 +199,18 @@ importDataForm.addEventListener('submit', (event) => {
       body: blob,
     };
 
-    fetch(requestUrl, requestOptions);
+    fetch(requestUrl, requestOptions).
+      then((response) => response.json()).
+      then((data) => {
+        if ('errors' in data) {
+          alerts.classList = 'alert error';
+          alerts.innerHTML = data.errors.message;
+        } else {
+          alerts.classList = 'alert success';
+          alerts.innerHTML = 'Importação de dados solicitada com sucesso! Em breve seus dados estarão disponíveis';
+        }
+      })
   }
 
   reader.readAsArrayBuffer(file);
-  alerts.innerHTML = 'Importação de dados solicitada com sucesso! Em breve seus dados estarão disponíveis';
-  alerts.classList = 'alert success';
   });

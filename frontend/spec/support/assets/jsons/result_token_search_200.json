@@ -1,0 +1,25 @@
+{
+    "result_token": "SCCP10",
+    "date": "2023-10-31",
+    "full_name": "Reginaldo Rossi",
+    "cpf": "283.368.670-66",
+    "email": "reidobrega@gmail.com",
+    "birth_date": "1944-02-14",
+    "doctor": {
+      "crm": "B000BJ20J4",
+      "crm_state": "PIR",
+      "full_name": "Dr. Ross Geller"
+    },
+    "tests": [
+      {
+        "type": "hemácias",
+        "limits": "45-52",
+        "results": "97"
+      },
+      {
+        "type": "glóbulos neutrônicos",
+        "limits": "2-8",
+        "results": "5"
+      }
+    ]
+  }
