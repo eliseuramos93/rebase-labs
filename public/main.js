@@ -172,3 +172,31 @@ backToListButton.addEventListener('click', (event) => {
   searchExamInfoDiv.innerHTML = '';
   resultToken.value = '';
 });
+
+// Formulário para realizar a importação de dados
+
+const importDataForm = document.getElementById('import-data-form');
+
+importDataForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const fileInput = document.getElementById('import-data-file');
+  const file = fileInput.files[0];
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const arrayBuffer = event.target.result;
+    const blob = new Blob([arrayBuffer]);
+    const requestUrl = '/import';
+    const requestOptions = {
+      method: 'POST',
+      body: blob,
+    };
+  
+    fetch(requestUrl, requestOptions);
+  }
+  
+  reader.readAsArrayBuffer(file);
+  alerts.innerHTML = 'Importação de dados solicitada com sucesso! Em breve seus dados estarão disponíveis';
+  alerts.classList = 'alert success';
+  });

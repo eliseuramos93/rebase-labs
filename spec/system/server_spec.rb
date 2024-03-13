@@ -10,8 +10,8 @@ def app
 end
 
 RSpec.describe Sinatra::Application, type: :system do
-  context 'GET /' do
-    it 'Usuário consulta a tabela de exames com sucesso', js: true do
+  context 'GET /', js: true do
+    it 'Usuário consulta a tabela de exames com sucesso' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
@@ -32,7 +32,7 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).to have_content 'Dr. Ross Geller'
     end
 
-    it 'Usuário pesquisa um exame usando o token e carrega os detalhes do exame com sucesso', js: true do
+    it 'Usuário pesquisa um exame usando o token e carrega os detalhes do exame com sucesso' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
@@ -68,7 +68,7 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).to have_content '5'
     end
 
-    it 'Usuário pesquisa um exame usando o token mas não executa a busca com o campo de busca vazio', js: true do
+    it 'Usuário pesquisa um exame usando o token mas não executa a busca com o campo de busca vazio' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
@@ -104,7 +104,7 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).not_to have_content '5'
     end
 
-    it 'Usuário pesquisa um exame usando o token e recebe um alerta de erro se nada for encontrado', js: true do
+    it 'Usuário pesquisa um exame usando o token e recebe um alerta de erro se nada for encontrado' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
@@ -124,7 +124,7 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).not_to have_content 'Glóbulos Neutrônicos'
     end
 
-    it 'Usuário pesquisa um exame usando o token e recebe um alerta de erro se o BD estiver indisponível', js: true do
+    it 'Usuário pesquisa um exame usando o token e recebe um alerta de erro se o BD estiver indisponível' do
       allow(DatabaseService).to receive(:connect).and_raise(PG::ConnectionBad)
 
       visit '/'
@@ -137,7 +137,7 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).not_to have_content 'Glóbulos Neutrônicos'
     end
 
-    it 'retorna para a lista de exames caso o botão "Voltar para a lista" seja clicado', js: true do
+    it 'Usuário retorna para a lista de exames caso ao clicar no botão "Voltar para a lista"' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
       doctor = Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
@@ -171,6 +171,20 @@ RSpec.describe Sinatra::Application, type: :system do
       expect(page).not_to have_content '2-8'
       expect(page).not_to have_content '97'
       expect(page).not_to have_content '5'
+    end
+
+    it 'Usuário solicita a importação assíncrona dos dados de exames ao clicar no botão "Importar Dados"' do
+      job_spy = spy('ImportDataJob')
+      stub_const('ImportDataJob', job_spy)
+
+      visit '/'
+      file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
+      attach_file 'Importar arquivo', file_path
+      click_on 'Importar Dados'
+
+      expect(page).to have_current_path '/'
+      expect(page).to have_content 'Importação de dados solicitada com sucesso! Em breve seus dados estarão disponíveis'
+      expect(job_spy).to have_received(:perform_async).once
     end
   end
 end
