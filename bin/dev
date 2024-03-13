@@ -1,8 +1,31 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
-if docker exec ruby gem list --no-installed --exact --silent foreman; then
-  echo "==== Instalando Foreman ====="
-  docker exec ruby gem install foreman
-fi
+APP_ROOT=$(dirname "$0")/..
 
-docker exec -it ruby foreman start -f Procfile.dev "$@"
+system() {
+  if ! "$@"; then
+    echo "Erro ao executar $*"
+    exit 1
+  fi
+}
+
+finished_task() {
+  echo "\nTarefa concluída!"
+}
+
+finished_setup() {
+  echo "\n===== Configuração completa! =====\n\n"
+  echo 'Você pode não ter permissão para excluir/alterar alguns arquivos que foram criados.'
+  echo 'Caso seja necessário, execute o comando ** sudo chown -R $USER:$USER . ** para obter permissões.'
+}
+
+cd "$APP_ROOT" || exit
+
+echo "\n===== 1. Executando Docker compose =====\n\n"
+system docker compose up --build --no-recreate
+finished_task
+
+echo "\n===== 2. Instalando dependências =====\n\n"
+system docker exec ruby bundle
+finished_task
+finished_setup

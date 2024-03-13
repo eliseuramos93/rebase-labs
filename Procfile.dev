@@ -1,2 +1,0 @@
-web: bundle && bundle exec puma -p 3000
-sidekiq-import-data: sidekiq -r ./lib/jobs/import_data_job.rb

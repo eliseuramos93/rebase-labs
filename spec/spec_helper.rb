@@ -29,7 +29,6 @@ Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|
   include Rack::Test::Methods
-  Capybara.server_port = 4242
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -54,6 +53,7 @@ RSpec.configure do |config|
     @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY CASCADE;')
     @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY CASCADE;')
     @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY CASCADE;')
+    @conn.exec('TRUNCATE TABLE tests RESTART IDENTITY CASCADE;')
     @conn.close
   end
 end

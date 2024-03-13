@@ -10,7 +10,7 @@ services:
     volumes:
       - data-db:/var/lib/postgresql/data
       - ./config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
-    
+
   postgres-test:
     image: postgres
     container_name: postgres-test
@@ -32,11 +32,25 @@ services:
       - ruby-gems:/usr/local/bundle
     ports:
       - "3000:3000"
-      - "4444:4444"
     working_dir: /app
     stdin_open: true
     tty: true
-    command: bash
+    command: bundle exec puma -p 3000
+    depends_on:
+      - redis
+  
+  sidekiq:
+    image: ruby
+    container_name: sidekiq
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ${PWD}:/app
+      - ruby-gems:/usr/local/bundle
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: sidekiq -r ./lib/jobs/import_data_job.rb
     depends_on:
       - redis
   

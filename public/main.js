@@ -192,10 +192,10 @@ importDataForm.addEventListener('submit', (event) => {
       method: 'POST',
       body: blob,
     };
-  
+
     fetch(requestUrl, requestOptions);
   }
-  
+
   reader.readAsArrayBuffer(file);
   alerts.innerHTML = 'Importação de dados solicitada com sucesso! Em breve seus dados estarão disponíveis';
   alerts.classList = 'alert success';
