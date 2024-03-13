@@ -8,17 +8,20 @@ TEST_DB = {
   host: 'postgres-test'
 }.freeze
 
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/spec'
+end
+
 require_relative '../server'
 require 'capybara/rspec'
 require 'debug'
 require 'pg'
 require 'rack/test'
 require 'rspec'
-require 'simplecov'
 require 'selenium-webdriver'
 require 'webdriver'
 
-SimpleCov.start
 Capybara.app = Sinatra::Application
 Capybara.server = :puma, { Silent: true }
 Capybara.javascript_driver = :selenium_headless
@@ -44,11 +47,10 @@ RSpec.configure do |config|
   config.before(:each) do
     @conn = PG.connect(TEST_DB)
     @conn.exec('SET client_min_messages TO warning;')
-    @conn.exec('BEGIN')
   end
 
   config.after(:each) do
-    @conn.exec('ROLLBACK') unless @conn.transaction_status.zero?
+    # @conn.exec('ROLLBACK') unless @conn.finished?
     @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY CASCADE;')
     @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY CASCADE;')
     @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY CASCADE;')

@@ -5,6 +5,7 @@ gem 'pg'
 gem 'puma'
 gem 'rack'
 gem 'rackup'
+gem 'sidekiq'
 gem 'sinatra'
 
 group :development, :test do
@@ -16,6 +17,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webdriver'

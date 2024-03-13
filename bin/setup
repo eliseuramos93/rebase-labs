@@ -28,14 +28,4 @@ finished_task
 echo "\n===== 2. Instalando dependências =====\n\n"
 system docker exec ruby bundle
 finished_task
-
-echo "\n===== 3. Inserindo informações no banco de dados =====\n\n"
-system docker exec ruby ruby ./config/initializers/import_from_csv.rb
-finished_task
-
-echo "\n===== 4. Executando testes com RSpec =====\n\n"
-system docker exec ruby rspec
-
-echo "\n===== 5. Executando Rubocop =====\n\n"
-system docker exec ruby rubocop
 finished_setup
