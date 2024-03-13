@@ -21,7 +21,7 @@ RSpec.describe Patient do
     it 'consiste no banco de dados as informações do paciente' do
       patient = Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                                birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                               connection: @conn, end_connection: false)
+                               end_connection: false)
 
       expect(patient.id).to eq 1
       expect(patient.cpf).to eq '283.368.670-66'
@@ -36,11 +36,11 @@ RSpec.describe Patient do
     it 'não cria um novo paciente caso o CPF já exista' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -52,7 +52,7 @@ RSpec.describe Patient do
     it 'não cria um novo paciente caso o CPF não seja informado' do
       Patient.create(cpf: nil, full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -64,7 +64,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se o nome não for informado' do
       Patient.create(cpf: '283.368.670-66', full_name: nil, email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -76,7 +76,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se o email não for informado' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: nil,
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -88,7 +88,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se a data de nascimento não for informada' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: nil, address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -100,7 +100,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se o endereço não for informado' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: nil, city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -112,7 +112,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se a cidade não for informada' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: nil, state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -124,7 +124,7 @@ RSpec.describe Patient do
     it 'e não cria um novo paciente se o estado não for informado' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: nil,
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
       connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
@@ -137,7 +137,7 @@ RSpec.describe Patient do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE')
 
-      connection = PG.connect(TEST_DB)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM patients;')
       connection.close
 
@@ -149,9 +149,9 @@ RSpec.describe Patient do
     it 'retorna um objeto paciente com as informações corretas' do
       Patient.create(cpf: '283.368.670-66', full_name: 'Reginaldo Rossi', email: 'reidobrega@gmail.com',
                      birth_date: '1944-02-14', address: '200 Rua do Garçom', city: 'Recife', state: 'PE',
-                     connection: @conn, end_connection: false)
+                     end_connection: false)
 
-      found_patient = Patient.find(id: 1, connection: @conn, end_connection: false)
+      found_patient = Patient.find(id: 1, end_connection: false)
 
       expect(found_patient).to be_a Patient
       expect(found_patient.id).to eq 1
@@ -165,7 +165,7 @@ RSpec.describe Patient do
     end
 
     it 'retorna nil caso nenhum paciente seja encontrado' do
-      found_patient = Patient.find(id: 1, connection: @conn, end_connection: false)
+      found_patient = Patient.find(id: 1, end_connection: false)
 
       expect(found_patient).to be_nil
     end

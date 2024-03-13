@@ -18,7 +18,7 @@ RSpec.describe Doctor do
   context '::create' do
     it 'consiste no banco de dados as informações do médico' do
       Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
-                    email: 'wewereonabreak@gmail.com', connection: @conn, end_connection: false)
+                    email: 'wewereonabreak@gmail.com', end_connection: false)
 
       connect = DatabaseService.connect
       results = connect.exec('SELECT * FROM doctors;')
@@ -92,7 +92,7 @@ RSpec.describe Doctor do
       Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                     email: 'wewereonabreak@gmail.com')
 
-      connection = PG.connect(TEST_DB)
+      connection = DatabaseService.connect
       results = connection.exec('SELECT * FROM doctors;')
       connection.close
 
@@ -105,7 +105,7 @@ RSpec.describe Doctor do
       Doctor.create(crm: 'B000BJ20J4', crm_state: 'PI', full_name: 'Dr. Ross Geller',
                     email: 'wewereonabreak@gmail.com')
 
-      doctor = Doctor.find(id: 1, connection: @conn, end_connection: false)
+      doctor = Doctor.find(id: 1, end_connection: false)
 
       expect(doctor.id).to eq 1
       expect(doctor.crm).to eq 'B000BJ20J4'
@@ -115,7 +115,7 @@ RSpec.describe Doctor do
     end
 
     it 'retorna nil caso nenhum médico seja encontrado' do
-      found_doctor = Doctor.find(id: 1, connection: @conn, end_connection: false)
+      found_doctor = Doctor.find(id: 1, end_connection: false)
 
       expect(found_doctor).to be_nil
     end

@@ -1,5 +1,5 @@
 DB_CONFIG = {
-  dbname: 'postgres',
+  dbname: 'development',
   user: 'postgres',
   password: 'postgres',
   port: '5432',
@@ -7,11 +7,11 @@ DB_CONFIG = {
 }.freeze
 
 TEST_DB_CONFIG = {
-  dbname: 'postgres-test',
-  user: 'postgres-test',
-  password: '654321',
+  dbname: 'test',
+  user: 'postgres',
+  password: 'postgres',
   port: '5432',
-  host: 'postgres-test'
+  host: 'postgres'
 }.freeze
 
 ALL_EXAMS_SQL = 'SELECT e.id, e.result_token, e.date, p.cpf, p.full_name, p.email, p.birth_date, d.crm, d.crm_state,

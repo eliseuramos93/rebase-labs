@@ -1,19 +1,12 @@
 ENV['APP_ENV'] = 'test'
 
-TEST_DB = {
-  dbname: 'postgres-test',
-  user: 'postgres-test',
-  password: '654321',
-  port: '5432',
-  host: 'postgres-test'
-}.freeze
-
 require 'simplecov'
 SimpleCov.start do
   add_filter '/spec'
 end
 
 require_relative '../server'
+require_relative '../lib/services/database_service'
 require 'capybara/rspec'
 require 'debug'
 require 'pg'
@@ -43,17 +36,11 @@ RSpec.configure do |config|
   config.example_status_persistence_file_path = './spec/support/failures.txt'
 
   # Configurações para testes usando o banco de dados de teste
-  config.before(:each) do
-    @conn = PG.connect(TEST_DB)
-    @conn.exec('SET client_min_messages TO warning;')
-  end
 
   config.after(:each) do
-    # @conn.exec('ROLLBACK') unless @conn.finished?
-    @conn.exec('TRUNCATE TABLE patients RESTART IDENTITY CASCADE;')
-    @conn.exec('TRUNCATE TABLE doctors RESTART IDENTITY CASCADE;')
-    @conn.exec('TRUNCATE TABLE examinations RESTART IDENTITY CASCADE;')
-    @conn.exec('TRUNCATE TABLE tests RESTART IDENTITY CASCADE;')
+    @conn = PG.connect(TEST_DB_CONFIG)
+    @conn.exec('SET client_min_messages TO ERROR;')
+    @conn.exec('TRUNCATE patients, doctors RESTART IDENTITY CASCADE;')
     @conn.close
   end
 end

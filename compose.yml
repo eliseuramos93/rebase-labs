@@ -11,17 +11,6 @@ services:
       - data-db:/var/lib/postgresql/data
       - ./config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  postgres-test:
-    image: postgres
-    container_name: postgres-test
-    environment:
-      POSTGRES_USER: postgres-test
-      POSTGRES_PASSWORD: '654321'
-    ports:
-      - "5433:5432"
-    volumes:
-      - ./config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
-
   ruby:
     build: .
     container_name: ruby
@@ -38,7 +27,7 @@ services:
     command: bundle exec puma -p 3000
     depends_on:
       - redis
-  
+
   sidekiq:
     image: ruby
     container_name: sidekiq

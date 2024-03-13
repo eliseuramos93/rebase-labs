@@ -6,7 +6,7 @@ RSpec.describe ImportCSVService do
     file_path = File.join(Dir.pwd, 'spec', 'support', 'assets', 'csvs', 'test_data.csv')
     csv_data = File.read(file_path)
 
-    ImportCSVService.run(data: csv_data, connection: @conn)
+    ImportCSVService.run(data: csv_data)
     connection = DatabaseService.connect
     results = connection.exec('SELECT * FROM patients')
     connection.close

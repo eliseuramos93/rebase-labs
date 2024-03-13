@@ -8,8 +8,8 @@ RSpec.describe DatabaseService do
       connection = DatabaseService.connect
 
       expect(connection.status).to eq PG::Constants::CONNECTION_OK
-      expect(connection.host).to eq 'postgres-test'
-      expect(connection.db).to eq 'postgres-test'
+      expect(connection.host).to eq 'postgres'
+      expect(connection.db).to eq 'test'
       expect(connection.port).to eq 5432
       connection.close
     end
