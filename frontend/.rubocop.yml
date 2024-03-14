@@ -1,0 +1,26 @@
+require:
+  - rubocop
+
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 3.3.0
+  SuggestExtensions: false
+  Exclude:
+    - 'config/**/*'
+    - 'config.ru'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Style/KeywordParametersOrder:
+  Enabled: false
+
+Metrics/BlockLength:
+  AllowedMethods: ['context', 'describe', 'it', 'scenario']
+

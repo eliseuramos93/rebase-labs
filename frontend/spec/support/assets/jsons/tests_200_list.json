@@ -1,0 +1,117 @@
+[
+    {
+      "result_token": "00S0MD",
+      "date": "2022-03-03",
+      "full_name": "Ladislau Duarte",
+      "cpf": "099.204.552-53",
+      "email": "lisha@rosenbaum.org",
+      "birth_date": "1981-02-02",
+      "doctor": {
+        "crm": "B000BJ8TIA",
+        "crm_state": "PR",
+        "full_name": "Ana Sophia Aparício Neto"
+      },
+      "tests": [
+        {
+          "type": "hemácias",
+          "limits": "45-52",
+          "results": "45"
+        },
+        {
+          "type": "leucócitos",
+          "limits": "9-61",
+          "results": "82"
+        },
+        {
+          "type": "ácido úrico",
+          "limits": "15-61",
+          "results": "3"
+        }
+      ]
+    },
+    {
+      "result_token": "06LD0G",
+      "date": "2021-05-15",
+      "full_name": "Valentina Cruz",
+      "cpf": "003.596.348-42",
+      "email": "cortez.dickens@farrell.name",
+      "birth_date": "1979-04-04",
+      "doctor": {
+        "crm": "B00067668W",
+        "crm_state": "RS",
+        "full_name": "Félix Garcês"
+      },
+      "tests": [
+        {
+          "type": "hemácias",
+          "limits": "45-52",
+          "results": "77"
+        },
+        {
+          "type": "leucócitos",
+          "limits": "9-61",
+          "results": "89"
+        },
+        {
+          "type": "ácido úrico",
+          "limits": "15-61",
+          "results": "39"
+        }
+      ]
+    },
+    {
+      "result_token": "TJUXC2",
+      "date": "2021-10-05",
+      "full_name": "Patricia Gentil",
+      "cpf": "089.034.562-70",
+      "email": "herta_wehner@krajcik.name",
+      "birth_date": "1998-02-25",
+      "doctor": {
+        "crm": "B0002W2RBG",
+        "crm_state": "CE",
+        "full_name": "Dra. Isabelly Rêgo"
+      },
+      "tests": [
+        {
+          "type": "hemácias",
+          "limits": "45-52",
+          "results": "46"
+        },
+        {
+          "type": "leucócitos",
+          "limits": "9-61",
+          "results": "60"
+        },
+        {
+          "type": "ácido úrico",
+          "limits": "15-61",
+          "results": "100"
+        }
+      ]
+    },
+    {
+      "result_token": "SCCP10",
+      "date": "2023-10-31",
+      "full_name": "Reginaldo Rossi",
+      "cpf": "283.368.670-66",
+      "email": "reidobrega@gmail.com",
+      "birth_date": "1944-02-14",
+      "doctor": {
+        "crm": "B000BJ20J4",
+        "crm_state": "PIR",
+        "full_name": "Dr. Ross Geller"
+      },
+      "tests": [
+        {
+          "type": "hemácias",
+          "limits": "45-52",
+          "results": "97"
+        },
+        {
+          "type": "glóbulos neutrônicos",
+          "limits": "2-8",
+          "results": "5"
+        }
+      ]
+    }
+  ]

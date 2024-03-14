@@ -9,40 +9,64 @@ services:
       - "5432:5432"
     volumes:
       - data-db:/var/lib/postgresql/data
-      - ./config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
-    
-  postgres-test:
-    image: postgres
-    container_name: postgres-test
-    environment:
-      POSTGRES_USER: postgres-test
-      POSTGRES_PASSWORD: '654321'
-    ports:
-      - "5433:5432"
-    volumes:
-      - ./config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/config/initializers/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  ruby:
-    build: .
-    container_name: ruby
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: backend
     environment:
       - REDIS_URL=redis://redis:6379/0
     volumes:
-      - ${PWD}:/app
-      - ruby-gems:/usr/local/bundle
+      - ./backend:/app
+      - back-ruby-gems:/usr/local/bundle
     ports:
-      - "3000:3000"
-      - "4444:4444"
+      - "4000:4000"
     working_dir: /app
     stdin_open: true
     tty: true
-    command: bash
+    command: bundle exec puma -p 4000
+    depends_on:
+      - redis
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+      - front-ruby-gems:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: bundle exec puma -p 3000
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: sidekiq
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+      - back-ruby-gems:/usr/local/bundle
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: sidekiq -r ./lib/jobs/import_data_job.rb
     depends_on:
       - redis
   
   redis:
     image: redis
+    container_name: redis
 
 volumes:
   data-db:
-  ruby-gems:
+  back-ruby-gems:
+  front-ruby-gems:

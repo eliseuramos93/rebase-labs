@@ -7,6 +7,7 @@ Uma aplicação web para listagem de resultados de exames de laboratório.
 - Linguagem: Ruby
 - Framework web: Sinatra
 - Web server: Puma
+- Processamento assíncrono: Sidekiq
 - Suite de testes: RSpec
 - Lint: Rubocop
 - Monitoramento de cobertura de testes: SimpleCov
@@ -17,17 +18,10 @@ A aplicação sempre que possível priorizará o Português (mais especificament
 ## Pré-requisitos
 - Possuir Docker Engine (ou Docker Desktop) instalado em sua máquina local.
 
-## Como configurar a aplicação
+## Como executar a aplicação
 
-Em um terminal aberto no diretório do projeto, basta executar o comando abaixo para configurar a aplicação:
+Em um terminal aberto no diretório do projeto, basta executar o comando abaixo para iniciar a aplicação:
 
-```bash
-bin/setup
-```
-
-## Como executar o servidor e acessar a aplicação em ambiente de desenvolvimento
-1. Siga as instruções de como executar a aplicação;
-2. Em um terminal com o diretório do projeto aberto, execute o seguinte comando: 
 ```bash
 bin/dev
 ```
@@ -39,7 +33,8 @@ Basta executar o comando abaixo em um terminal aberto no diretório do projeto p
 ```bash
 docker compose down
 ```
-## Endpoints disponíveis
+
+## Endpoints disponíveis no Backend
 
 ### GET /
 ```bash
